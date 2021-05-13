@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Countdown
 {
@@ -9,18 +11,113 @@ namespace Countdown
 
         static void Main(string[] args)
         {
+            Countdown();
+        }
 
-            Init();
-            
+        private static void Countdown()
+        {
             while (true)
             {
-                var stopwatch = Stopwatch.StartNew();
-                CurrentTime();
-                Update();
-                stopwatch.Stop();
+                Console.Clear();
+                Console.CursorVisible = true;
+                bool isQuit = false;
+                bool isCounting = false;
+                int countdownSec = 0;
+                while (true)
+                {
+                    Console.Write("Input Countdown Seconds: ");
+                    string countdownSecStr = Console.ReadLine();
+                    if (int.TryParse(countdownSecStr, out countdownSec))
+                    {
+                        break;
+                    }
+                }
 
-                System.Threading.Thread.Sleep(500 - (int)stopwatch.ElapsedMilliseconds);
+                Init();
+                Console.CursorVisible = false;
+                isCounting = true;
+
+                Thread dotThread = new Thread(() =>
+                {
+                    ShowAllDot();
+
+                    Stopwatch dotWatch = null;
+                    while (true)
+                    {
+                        if (isQuit)
+                        {
+                            break;
+                        }
+
+                        if (dotWatch == null && isCounting)
+                        {
+                            dotWatch = Stopwatch.StartNew();
+                        }
+
+                        if (isCounting && dotWatch.ElapsedMilliseconds >= 500)
+                        {
+                            SwitchDot(DotLocation.First);
+                            SwitchDot(DotLocation.Second);
+
+                            dotWatch.Stop();
+                            dotWatch = null;
+                        }
+                    }
+                });
+                dotThread.Start();
+
+                Thread quitThread = new Thread(() =>
+                {
+                    ConsoleKeyInfo key = Console.ReadKey();
+                    if (key.Key == ConsoleKey.Q)
+                    {
+                        isQuit = true;
+                    }
+                });
+                quitThread.Start();
+
+                Stopwatch stopwatch = null;
+                while (true)
+                {
+                    if (isQuit)
+                    {
+                        break;
+                    }
+
+                    if (stopwatch == null && isCounting)
+                    {
+                        stopwatch = Stopwatch.StartNew();
+                    }
+
+                    if (stopwatch != null && stopwatch.Elapsed.TotalSeconds > countdownSec)
+                    {
+                        LeftTime(countdownSec, countdownSec);
+                        ShowAllDot();
+                        stopwatch.Stop();
+                        stopwatch = null;
+                        isCounting = false;
+
+                    }
+                    else if (isCounting)
+                    {
+                        LeftTime(countdownSec, (int)stopwatch.Elapsed.TotalSeconds);
+                    }
+
+                    Update();
+                    Console.WriteLine("\n  Press q to quit");
+                }
             }
+        }
+
+        private static void LeftTime(int countdownSec, int elapsedSec)
+        {
+            var timeLeft = TimeSpan.FromSeconds(countdownSec - elapsedSec);
+            DisplayNumber(timeLeft.Hours / 10, NumberLocation.HourFirst);
+            DisplayNumber(timeLeft.Hours % 10, NumberLocation.HourSecond);
+            DisplayNumber(timeLeft.Minutes / 10, NumberLocation.MinuteFirst);
+            DisplayNumber(timeLeft.Minutes % 10, NumberLocation.MinuteSecond);
+            DisplayNumber(timeLeft.Seconds / 10, NumberLocation.SecondFirst);
+            DisplayNumber(timeLeft.Seconds % 10, NumberLocation.SecondSecond);
         }
 
         private static void CurrentTime()
@@ -49,8 +146,6 @@ namespace Countdown
 
         private static void Update()
         {
-            DisplayDot(13);
-            DisplayDot(27);
             for (int i = 0; i < grid.GetLength(0); i++)
             {
                 for (int j = 0; j < grid.GetLength(1); j++)
@@ -300,6 +395,8 @@ namespace Countdown
                                 return;
                             }
                         }
+
+                        grid[i, j].Value = false;
                     });
                     break;
                 case 9:
@@ -346,25 +443,62 @@ namespace Countdown
             }
         }
 
-        private static void DisplayDot(int colOffset)
+        private static void SwitchDot(DotLocation location)
         {
+            int colOffset = (int)location;
             if (grid[3, colOffset].Value)
             {
                 grid[3, colOffset].Value = false;
+                SetBlack(3, colOffset);
             }
             else
             {
                 grid[3, colOffset].Value = true;
+                SetWhite(3, colOffset);
             }
 
             if (grid[7, colOffset].Value)
             {
                 grid[7, colOffset].Value = false;
+                SetBlack(7, colOffset);
             }
             else
             {
                 grid[7, colOffset].Value = true;
+                SetWhite(7, colOffset);
             }
+        }
+
+        private static void ShowAllDot()
+        {
+            int firstCol = (int)DotLocation.First;
+            int secondCol = (int)DotLocation.Second;
+
+            grid[3, firstCol].Value = true;
+            SetWhite(3, firstCol);
+            grid[7, firstCol].Value = true;
+            SetWhite(7, firstCol);
+
+            grid[3, secondCol].Value = true;
+            SetWhite(3, secondCol);
+            grid[7, secondCol].Value = true;
+            SetWhite(7, secondCol);
+        }
+
+        private static void HideAllDot()
+        {
+            int firstCol = (int)DotLocation.First;
+            int secondCol = (int)DotLocation.Second;
+
+            grid[3, firstCol].Value = false;
+            SetBlack(3, firstCol);
+            grid[7, firstCol].Value = false;
+            SetBlack(7, firstCol);
+
+            grid[3, secondCol].Value = false;
+            SetBlack(3, secondCol);
+            grid[7, secondCol].Value = false;
+            SetBlack(7, secondCol);
         }
     }
 
@@ -378,5 +512,10 @@ namespace Countdown
         HourFirst = 1, HourSecond = 7,
         MinuteFirst = 15, MinuteSecond = 21,
         SecondFirst = 29, SecondSecond = 35,
+    }
+
+    public enum DotLocation
+    {
+        First = 13, Second = 27
     }
 }
