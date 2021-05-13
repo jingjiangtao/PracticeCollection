@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomizeActionFilter", "CustomizeActionFilter\CustomizeActionFilter.csproj", "{413D0CE5-B62E-4743-AAD1-0B8AEFF3D1C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomizeActionFilter", "CustomizeActionFilter\CustomizeActionFilter.csproj", "{413D0CE5-B62E-4743-AAD1-0B8AEFF3D1C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CellularAutomata", "CellularAutomata\CellularAutomata.csproj", "{3BE84B3F-983A-4D8F-A598-EA634FF064F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wavy", "Wavy\Wavy.csproj", "{594D38B5-E8B0-4EBD-9E52-FD5B2D8C2641}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{413D0CE5-B62E-4743-AAD1-0B8AEFF3D1C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{413D0CE5-B62E-4743-AAD1-0B8AEFF3D1C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{413D0CE5-B62E-4743-AAD1-0B8AEFF3D1C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BE84B3F-983A-4D8F-A598-EA634FF064F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BE84B3F-983A-4D8F-A598-EA634FF064F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BE84B3F-983A-4D8F-A598-EA634FF064F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BE84B3F-983A-4D8F-A598-EA634FF064F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{594D38B5-E8B0-4EBD-9E52-FD5B2D8C2641}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{594D38B5-E8B0-4EBD-9E52-FD5B2D8C2641}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{594D38B5-E8B0-4EBD-9E52-FD5B2D8C2641}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{594D38B5-E8B0-4EBD-9E52-FD5B2D8C2641}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
