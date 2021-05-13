@@ -89,6 +89,7 @@ namespace Countdown
                         stopwatch = Stopwatch.StartNew();
                     }
 
+                    // 时间到
                     if (stopwatch != null && stopwatch.Elapsed.TotalSeconds > countdownSec)
                     {
                         LeftTime(countdownSec, countdownSec);
@@ -119,18 +120,6 @@ namespace Countdown
             DisplayNumber(timeLeft.Seconds / 10, NumberLocation.SecondFirst);
             DisplayNumber(timeLeft.Seconds % 10, NumberLocation.SecondSecond);
         }
-
-        private static void CurrentTime()
-        {
-            var now = DateTime.Now;
-            DisplayNumber(now.Hour / 10, NumberLocation.HourFirst);
-            DisplayNumber(now.Hour % 10, NumberLocation.HourSecond);
-            DisplayNumber(now.Minute / 10, NumberLocation.MinuteFirst);
-            DisplayNumber(now.Minute % 10, NumberLocation.MinuteSecond);
-            DisplayNumber(now.Second / 10, NumberLocation.SecondFirst);
-            DisplayNumber(now.Second % 10, NumberLocation.SecondSecond);
-        }
-
 
         private static void Init()
         {
