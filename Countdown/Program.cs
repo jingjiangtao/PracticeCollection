@@ -9,7 +9,6 @@ namespace Countdown
 
         static void Main(string[] args)
         {
-            Console.CursorVisible = false;
 
             Init();
             
@@ -33,8 +32,6 @@ namespace Countdown
             DisplayNumber(now.Minute % 10, NumberLocation.MinuteSecond);
             DisplayNumber(now.Second / 10, NumberLocation.SecondFirst);
             DisplayNumber(now.Second % 10, NumberLocation.SecondSecond);
-            DisplayDot(13);
-            DisplayDot(27);
         }
 
 
@@ -52,6 +49,8 @@ namespace Countdown
 
         private static void Update()
         {
+            DisplayDot(13);
+            DisplayDot(27);
             for (int i = 0; i < grid.GetLength(0); i++)
             {
                 for (int j = 0; j < grid.GetLength(1); j++)
