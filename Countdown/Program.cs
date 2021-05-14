@@ -29,6 +29,11 @@ namespace Countdown
                     string countdownSecStr = Console.ReadLine();
                     if (int.TryParse(countdownSecStr, out countdownSec))
                     {
+                        if (countdownSec > 86400)
+                        {
+                            continue;
+                        }
+
                         break;
                     }
                 }
